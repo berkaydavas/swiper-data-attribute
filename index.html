@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Swiper</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+      body {
+        margin: 0;
+      }
+      
+      .swiper {
+        height: 100vh;
+      }
+      
+      .swiper-slide .slide-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="swiper" data-loop="true" data-navigation_next-el=".swiper-button-next" data-navigation_prev-el=".swiper-button-prev" data-pagination_el=".swiper-pagination">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+          <img class="slide-img" src="https://picsum.photos/1920/1080?random=1" alt="" loading="lazy">
+        </div>
+        <div class="swiper-slide">
+          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+          <img class="slide-img" src="https://picsum.photos/1920/1080?random=2" alt="" loading="lazy">
+        </div>
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      document.querySelectorAll('.swiper').forEach(swiperEl => {
+        const options = {};
+        Object.keys(swiperEl.dataset).forEach(key => {
+          const value = swiperEl.dataset[key];
+          if (!key.includes('_')) {
+            options[key] = value;
+            return;
+          }
+      
+          const objectKeys = key.split('_');
+          const lastKey = objectKeys[objectKeys.length - 1];
+          objectKeys.reduce((a, c) => {
+            if (c != lastKey) {
+              a[c] = {
+                ...a[c]
+              };
+            } else {
+              a[c] = value;
+            }
+            return a[c];
+          }, options);
+        });
+      
+        const swiper = new Swiper(swiperEl, options);
+        config.swipers[swiperEl.id] = swiper;
+      });
+    </script>
+  </body>
+
+</html>
